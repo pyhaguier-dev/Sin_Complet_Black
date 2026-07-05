@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Complet</title>
+<title>Sinusoidal Complet</title>
 
 <style>
 
@@ -189,7 +189,7 @@ document.addEventListener(
 
 
 window.addEventListener("load", () => {
-
+keepScreenAwake();
     showNumbers();
 
     running = true;
@@ -204,6 +204,34 @@ window.addEventListener("load", () => {
 
 });
 
+
+let wakeLock = null;
+
+async function keepScreenAwake() {
+    try {
+        wakeLock = await navigator.wakeLock.request("screen");
+
+        wakeLock.addEventListener("release", () => {
+            console.log("Wake Lock released");
+        });
+
+        console.log("Screen Wake Lock active");
+
+    } catch (err) {
+        console.log("Wake Lock error:", err);
+    }
+}
+
+document.addEventListener("visibilitychange", async () => {
+
+    if (
+        wakeLock !== null &&
+        document.visibilityState === "visible"
+    ) {
+        await keepScreenAwake();
+    }
+
+});
 
 </script>
 
