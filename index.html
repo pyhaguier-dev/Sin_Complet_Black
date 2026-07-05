@@ -9,48 +9,38 @@
 
 <style>
 
+
 body {
     font-family: Arial, sans-serif;
+   //background-color: black;
+
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* vertical center */
+    align-items: center;      /* horizontal center */
+
     text-align: center;
-    margin-top: 30px;
-background-color: black;
 }
+
 
 
 
 #numbers {
        color: purple;
-    font-size: clamp(40px, 12vw, 90px);
-    margin: 15px;
+   // font-size: clamp(40px, 12vw, 90px);
+font-size: clamp(40px, 8vw, 90px);
+//  margin: 15px;
+ overflow-wrap: break-word;
+    text-align: center;
+//background-color: white;
+
 }
 
 
-#controls {
-    margin-top: 30px;
-}
 
-.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-button {
-    font-size: clamp(12px, 4vw, 16px);
-    padding: clamp(6px, 2vw, 12px);
-    margin: 5px;
-    cursor: pointer;
-    border-radius: 10px;
-}
-
-#timerBtn {
-    background-color: #eee;
-}
-
-#timerBtn.active {
-    background-color: #4CAF50;
-    color: white;
-}
-let currentDirection = 1;
 
 </style>
 </head>
@@ -59,11 +49,7 @@ let currentDirection = 1;
 
 <div id="numbers"></div>
 
-<div id="controls">
-    <button id="timerBtn" onclick="toggleAutomatic()">
-        🔄 Automatique
-    </button>
-</div>
+
 
 <script>
 
@@ -75,11 +61,11 @@ let index = 0;
 
 let running = false;
 let animationFrame = null;
-let hideControlsTimeout;
+
 
 let phase = 0;
 let lastUpdate = 0;
-
+let currentDirection = 1;
 
 // Rainbow colors
 const numberColors = [
@@ -97,6 +83,7 @@ let colorIndex = 0;
 
 
 
+
 function showNumbers() {
 
     const numberElement =
@@ -105,33 +92,12 @@ function showNumbers() {
     numberElement.innerText =
         numbers[index];
 
-   
-if (running) {
-
     numberElement.style.color =
         numberColors[colorIndex];
 
-    if (currentDirection > 0) {
-
-        // Forward
-        colorIndex =
-            (colorIndex + 1) %
-            numberColors.length;
-
-    } else {
-
-        // Backward
-        colorIndex =
-            (colorIndex - 1 + numberColors.length) %
-            numberColors.length;
-    }
-}
-
-else {
-
-        numberElement.style.color =
-             "purple";
-    }
+    colorIndex =
+        (colorIndex + 1) %
+        numberColors.length;
 }
 
 function sinusoidalLoop(timestamp) {
@@ -190,79 +156,8 @@ const interval =
         );
 }
 
-function toggleAutomatic() {
+     
 
-    const btn =
-        document.getElementById(
-            "timerBtn"
-        );
-
-    if (running) {
-
-        running = false;
-
-        cancelAnimationFrame(
-            animationFrame
-        );
-
-        btn.classList.remove(
-            "active"
-        );
-
-        btn.innerText =
-            "🔄 Automatique";
-
-        document.getElementById(
-            "numbers"
-        ).style.color = "purple";
-
-    } else {
-
-        colorIndex = 0;
-
-        running = true;
-
-        btn.classList.add(
-            "active"
-        );
-
-        btn.innerText =
-            "⏸️ En cours";
-
-        lastUpdate =
-            performance.now();
-
-        animationFrame =
-            requestAnimationFrame(
-                sinusoidalLoop
-            );
-    }
-}
-
-function showControlsTemporarily() {
-
-    const controls =
-        document.getElementById(
-            "controls"
-        );
-
-    controls.classList.remove(
-        "hidden"
-    );
-
-    clearTimeout(
-        hideControlsTimeout
-    );
-
-    hideControlsTimeout =
-        setTimeout(() => {
-
-            controls.classList.add(
-                "hidden"
-            );
-
-        }, 5000);
-}
 
 // Fullscreen on first touch/click
 
@@ -290,19 +185,25 @@ document.addEventListener(
     { once: true }
 );
 
-// Show controls on touch
 
-document.addEventListener(
-    "click",
-    showControlsTemporarily
-);
 
-document.addEventListener(
-    "touchstart",
-    showControlsTemporarily
-);
 
-showNumbers();
+window.addEventListener("load", () => {
+
+    showNumbers();
+
+    running = true;
+
+    lastUpdate =
+        performance.now();
+
+    animationFrame =
+        requestAnimationFrame(
+            sinusoidalLoop
+        );
+
+});
+
 
 </script>
 
