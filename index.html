@@ -13,7 +13,7 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     margin-top: 30px;
-background-color: black;
+//background-color: black;
 }
 
 
@@ -89,8 +89,8 @@ const numberColors = [
     "green",
     "blue",
     "indigo",
-    "purple",
-    "white"
+    "purple"
+    
    	
 ];
 
@@ -161,10 +161,17 @@ const direction =
     // Slow at zero crossing
     // Fast at wave peak
 
-    const interval =
-        2500 -
-      //  speed * 2300;
-speed * 2400;
+ const minInterval = 121.21212121; //528
+const maxInterval = 1939.39393939; //528
+ // const minInterval = 127.71392081; //7.83
+//const maxInterval = 2043.42273307; //7.83
+//const minInterval = 132.25463149; //528 432 7.83
+//const maxInterval = 1058.03705196; //528 432 7.83
+
+const interval =
+    maxInterval -
+    speed * (maxInterval - minInterval);
+
     if (timestamp - lastUpdate > interval) {
 
         index =
@@ -184,7 +191,6 @@ speed * 2400;
             sinusoidalLoop
         );
 }
-
 
 function toggleAutomatic() {
 
@@ -210,7 +216,7 @@ function toggleAutomatic() {
 
         document.getElementById(
             "numbers"
-        ).style.color = "black";
+        ).style.color = "purple";
 
     } else {
 
