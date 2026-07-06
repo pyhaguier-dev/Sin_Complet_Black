@@ -31,12 +31,13 @@ body {
 #numbers {
        color: purple;
    // font-size: clamp(40px, 12vw, 90px);
-font-size: clamp(40px, 8vw, 90px);
+font-size: clamp(24px, 8vw, 60px);
 //  margin: 15px;
  overflow-wrap: break-word;
     text-align: center;
 //background-color: white;
-
+ max-width: 98vw;
+    white-space: nowrap;
 }
 
 
@@ -70,14 +71,14 @@ let currentDirection = 1;
 
 // Rainbow colors
 const numberColors = [
-   // "red",
-   // "orange",
-   // "yellow",
-   // "green",
-  //  "blue",
-  //  "indigo",
- //   "purple"     	
-    "black"
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "blue",
+    "indigo",
+   "violet"     	
+   
 ];
 
 let colorIndex = 0;
